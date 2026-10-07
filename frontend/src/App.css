@@ -133,57 +133,84 @@ body {
 }
 
 /* =========================================================================
-   TOP CLASSIFICATION & TELEMETRY BANNER (MIL-STD-2525)
+   TOP SYSTEM STATUS BAR (EW-SMARTSCAN TRAINING ENVIRONMENT)
    ========================================================================= */
 
 .defense-classification-bar {
-  background: #0d1117;
-  border-bottom: 1px solid #ffaa0044;
-  padding: 3px 16px;
+  background: #050912;
+  border-bottom: 1px solid rgba(26, 37, 54, 0.9);
+  padding: 4px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 1.5px;
-  color: var(--alert-amber);
+  font-size: 0.67rem;
+  letter-spacing: 1px;
+  color: #64748B;
   text-transform: uppercase;
   user-select: none;
+  min-height: 26px;
+  box-sizing: border-box;
 }
 
 .class-marker {
-  font-weight: 700;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: #8fa0b5;
+  letter-spacing: 1.1px;
 }
 
-.class-marker::before {
-  content: "■";
-  color: var(--alert-amber);
-  animation: beacon-blink 1.2s infinite;
+.class-marker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tactical-cyan);
+  box-shadow: 0 0 6px var(--tactical-cyan);
+  display: inline-block;
+  animation: beacon-blink 2s infinite ease-in-out;
 }
 
 @keyframes beacon-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
 }
 
 .class-specs {
   display: flex;
   align-items: center;
-  gap: 16px;
-  color: var(--text-muted);
+  gap: 14px;
+  color: #64748B;
+  font-size: 0.67rem;
 }
 
-.class-specs span {
+.spec-item {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
-.class-specs strong {
-  color: var(--text-readout);
+.spec-label {
+  color: #64748B;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+}
+
+.spec-val {
+  color: #E6F1FF;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+.spec-val.threat-elevated {
+  color: #FFD166;
+  font-weight: 800;
+}
+
+.spec-divider {
+  color: #1e293b;
+  font-weight: 300;
 }
 
 /* =========================================================================
@@ -191,34 +218,41 @@ body {
    ========================================================================= */
 
 .tactical-c2-header {
-  background: var(--chassis-panel);
-  border-bottom: 2px solid var(--steel-border);
-  padding: 10px 20px;
+  background: #08111D;
+  border-bottom: 1px solid #1a2536;
+  padding: 8px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 18px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  min-height: 58px;
 }
 
+/* 2. MAIN BRAND HEADER */
 .c2-brand-block {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .c2-emblem {
-  width: 38px;
-  height: 38px;
-  background: var(--chassis-card);
-  border: 1px solid var(--steel-border-hi);
+  width: 36px;
+  height: 36px;
+  background: #0B1422;
+  border: 1px solid rgba(0, 229, 255, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.08);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.12), inset 0 0 8px rgba(0, 229, 255, 0.08);
+  border-radius: 3px;
+  flex-shrink: 0;
 }
 
 .c2-emblem::after {
@@ -232,134 +266,372 @@ body {
   border-left: 1px solid var(--tactical-cyan);
 }
 
+.c2-radar-icon {
+  color: var(--tactical-cyan);
+  filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.5));
+}
+
 .c2-brand-titles {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .c2-sys-name {
-  font-family: var(--font-title);
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: var(--text-bright);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
+  line-height: 1.2;
+}
+
+.c2-name-primary {
+  font-family: var(--font-title);
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #E6F1FF;
+  white-space: nowrap;
 }
 
 .c2-badge-code {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  background: rgba(0, 229, 255, 0.12);
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: rgba(0, 229, 255, 0.1);
   color: var(--tactical-cyan);
-  border: 1px solid var(--tactical-cyan);
+  border: 1px solid rgba(0, 229, 255, 0.4);
   padding: 1px 6px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
+  border-radius: 2px;
+  white-space: nowrap;
 }
 
 .c2-sys-sub {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--text-muted);
-  letter-spacing: 0.8px;
+  font-size: 0.63rem;
+  font-weight: 600;
+  color: #94A3B8;
+  letter-spacing: 1.1px;
+  white-space: nowrap;
+  line-height: 1.2;
 }
 
-/* Functional C2 Mode Selectors */
+.c2-sys-tertiary {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 500;
+  color: #64748B;
+  letter-spacing: 0.9px;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+/* 3. NAVIGATION */
 .c2-mode-selector {
   display: flex;
   gap: 4px;
-  background: var(--chassis-inset);
+  background: #050912;
   padding: 3px;
-  border: 1px solid var(--steel-border);
+  border: 1px solid #1a2536;
+  border-radius: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 1;
+}
+
+.c2-mode-selector::-webkit-scrollbar {
+  display: none;
 }
 
 .c2-mode-btn {
   background: transparent;
-  color: var(--text-muted);
+  color: #64748B;
   border: 1px solid transparent;
-  padding: 7px 14px;
+  padding: 6px 12px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  white-space: nowrap;
+  border-radius: 2px;
   transition: all 0.15s ease;
+  user-select: none;
+}
+
+.c2-mode-btn .nav-icon {
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.c2-mode-btn .nav-label {
+  white-space: nowrap;
 }
 
 .c2-mode-btn:hover {
-  color: var(--text-bright);
+  color: #E6F1FF;
   background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(26, 37, 54, 0.8);
 }
 
 .c2-mode-btn.active {
-  background: var(--chassis-card);
-  color: var(--tactical-cyan);
-  border: 1px solid var(--steel-border-hi);
-  box-shadow: inset 0 0 8px rgba(0, 229, 255, 0.15);
+  background: #0B1422;
+  color: #E6F1FF;
+  border: 1px solid #00E5FF;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.22), inset 0 0 6px rgba(0, 229, 255, 0.08);
+}
+
+.c2-mode-btn.active .nav-icon {
+  color: #00E5FF;
+  filter: drop-shadow(0 0 3px rgba(0, 229, 255, 0.5));
+}
+
+.c2-mode-btn.active .nav-label {
+  color: #E6F1FF;
 }
 
 .c2-mode-key {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
+  font-weight: 700;
   padding: 1px 4px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 2px;
-  color: var(--text-bright);
+  color: #64748B;
+  letter-spacing: 0.5px;
 }
 
-/* Header Right Telemetry & Controls */
+.c2-mode-btn.active .c2-mode-key {
+  background: rgba(0, 229, 255, 0.15);
+  border-color: rgba(0, 229, 255, 0.45);
+  color: #00E5FF;
+}
+
+/* 4. RIGHT SYSTEM CONTROLS & TELEMETRY */
 .c2-header-right {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
-.tactical-toggle-btn {
-  background: var(--chassis-card);
-  border: 1px solid var(--steel-border);
-  color: var(--text-muted);
-  padding: 6px 10px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+.c2-secondary-controls {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.tactical-toggle-btn.secondary-btn {
+  background: rgba(11, 20, 34, 0.6);
+  border: 1px solid #1a2536;
+  color: #64748B;
+  padding: 5px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
-  transition: all 0.15s;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
-.tactical-toggle-btn:hover {
-  border-color: var(--steel-border-hi);
-  color: var(--text-bright);
+.tactical-toggle-btn.secondary-btn:hover {
+  border-color: #2b3e58;
+  color: #E6F1FF;
+  background: #0B1422;
 }
 
-.tactical-toggle-btn.toggled-on {
-  border-color: var(--phosphor-green);
-  color: var(--phosphor-green);
-  background: var(--phosphor-green-dim);
+.tactical-toggle-btn.secondary-btn .ctrl-label {
+  letter-spacing: 0.5px;
 }
 
-.tactical-toggle-btn.toggled-warn {
-  border-color: var(--alert-amber);
-  color: var(--alert-amber);
-  background: var(--alert-amber-dim);
+.tactical-toggle-btn.secondary-btn .ctrl-state {
+  font-weight: 700;
+  font-size: 0.62rem;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.zulu-box {
-  background: var(--chassis-inset);
-  border: 1px solid var(--steel-border);
-  padding: 6px 12px;
+.tactical-toggle-btn.secondary-btn.toggled-on {
+  border-color: rgba(0, 255, 157, 0.4);
+  color: #00FF9D;
+  background: rgba(0, 255, 157, 0.08);
+}
+
+.tactical-toggle-btn.secondary-btn.toggled-on .ctrl-label {
+  color: #00FF9D;
+}
+
+.tactical-toggle-btn.secondary-btn.toggled-on .ctrl-state {
+  color: #00FF9D;
+  background: rgba(0, 255, 157, 0.18);
+}
+
+.tactical-toggle-btn.secondary-btn.toggled-warn {
+  border-color: rgba(255, 209, 102, 0.4);
+  color: #FFD166;
+  background: rgba(255, 209, 102, 0.08);
+}
+
+.tactical-toggle-btn.secondary-btn.toggled-warn .ctrl-label {
+  color: #FFD166;
+}
+
+.tactical-toggle-btn.secondary-btn.toggled-warn .ctrl-state {
+  color: #FFD166;
+  background: rgba(255, 209, 102, 0.18);
+}
+
+/* Primary System Indicator: PRIORS WARM / COLD */
+.priors-status-btn {
+  background: #0B1422;
+  border: 1px solid rgba(0, 255, 157, 0.5);
+  box-shadow: 0 0 10px rgba(0, 255, 157, 0.18), inset 0 0 6px rgba(0, 255, 157, 0.06);
+  padding: 5px 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.priors-status-btn.status-warm {
+  border-color: #00FF9D;
+  box-shadow: 0 0 12px rgba(0, 255, 157, 0.22), inset 0 0 6px rgba(0, 255, 157, 0.08);
+}
+
+.priors-status-btn.status-cold {
+  border-color: #FFD166;
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.15), inset 0 0 6px rgba(255, 209, 102, 0.05);
+}
+
+.priors-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00FF9D;
+  box-shadow: 0 0 6px #00FF9D;
+  animation: beacon-blink 1.5s infinite ease-in-out;
+}
+
+.status-cold .priors-pulse-dot {
+  background: #FFD166;
+  box-shadow: 0 0 6px #FFD166;
+}
+
+.priors-icon {
+  color: #00FF9D;
+}
+
+.status-cold .priors-icon {
+  color: #FFD166;
+}
+
+.priors-text-wrap {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  font-size: 0.73rem;
+  letter-spacing: 0.8px;
+}
+
+.priors-label {
+  color: #E6F1FF;
+  font-weight: 600;
+}
+
+.priors-val {
+  color: #00FF9D;
+  font-weight: 800;
+}
+
+.status-cold .priors-val {
+  color: #FFD166;
+}
+
+/* Digital Zulu Clock */
+.zulu-box {
+  background: #050912;
+  border: 1px solid #1a2536;
+  padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--tactical-cyan);
+  font-size: 0.76rem;
+  color: #00E5FF;
   font-weight: 700;
   letter-spacing: 1px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.zulu-icon {
+  color: #64748B;
+}
+
+.zulu-time-text {
+  color: #E6F1FF;
+}
+
+/* Header Responsive Styles */
+@media (max-width: 1380px) {
+  .tactical-c2-header {
+    gap: 12px;
+    padding: 8px 14px;
+  }
+  .c2-mode-btn {
+    padding: 6px 9px;
+    font-size: 0.68rem;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 1140px) {
+  .defense-classification-bar {
+    padding: 3px 12px;
+    font-size: 0.62rem;
+  }
+  .class-specs {
+    gap: 8px;
+  }
+  .spec-divider {
+    display: none;
+  }
+  .tactical-toggle-btn.secondary-btn .ctrl-label {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .defense-classification-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 5px 12px;
+  }
+  .class-specs {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tactical-c2-header {
+    flex-wrap: wrap;
+  }
+  .c2-mode-selector {
+    order: 3;
+    width: 100%;
+    margin-top: 4px;
+  }
 }
 
 /* =========================================================================

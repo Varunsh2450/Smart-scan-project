@@ -791,98 +791,139 @@ export default function App() {
     <div className="tactical-console-root">
       {crtEnabled && <div className="crt-overlay" />}
 
-      {/* 00 // TOP CLASSIFICATION & TELEMETRY BANNER */}
+      {/* 00 // TOP TECHNICAL STATUS BAR */}
       <div className="defense-classification-bar">
         <div className="class-marker">
-          RESTRICTED // NATO SECRET // REL TO DEFENSE FORCES // C4ISR-EW-2525D
+          <span className="class-marker-dot" />
+          <span>SIMULATION // TRAINING ENVIRONMENT // EW-SMARTSCAN</span>
         </div>
         <div className="class-specs">
-          <span>PLATFORM: <strong>SU-30MKI / RAFALE TACTICAL ESM [AN/ALQ-218]</strong></span>
-          <span>GRID: <strong>34°12'09"N 74°48'32"E // FL 310</strong></span>
-          <span>RF NOISE FLOOR: <strong>-114.2 dBm</strong></span>
-          <span>DSP CORE: <strong>4.8 GHz PARALLEL FPGA</strong></span>
-          <span>DEFCON: <strong style={{ color: "var(--alert-amber)" }}>2 [ELEVATED]</strong></span>
+          <div className="spec-item">
+            <span className="spec-label">PLATFORM:</span>
+            <strong className="spec-val">EW-SIM</strong>
+          </div>
+          <span className="spec-divider">/</span>
+          <div className="spec-item">
+            <span className="spec-label">RF RANGE:</span>
+            <strong className="spec-val">0–18 GHz</strong>
+          </div>
+          <span className="spec-divider">/</span>
+          <div className="spec-item">
+            <span className="spec-label">NOISE FLOOR:</span>
+            <strong className="spec-val">-114.2 dBm</strong>
+          </div>
+          <span className="spec-divider">/</span>
+          <div className="spec-item">
+            <span className="spec-label">DSP:</span>
+            <strong className="spec-val">FPGA</strong>
+          </div>
+          <span className="spec-divider">/</span>
+          <div className="spec-item">
+            <span className="spec-label">THREAT LEVEL:</span>
+            <strong className="spec-val threat-elevated">ELEVATED</strong>
+          </div>
         </div>
       </div>
 
       {/* 01 // TACTICAL C2 HEADER & NAVIGATION */}
       <header className="tactical-c2-header">
         <div className="c2-brand-block">
-          <div className="c2-emblem">
-            <Radio size={20} className="cyan-text" />
+          <div className="c2-emblem" aria-hidden="true">
+            <Radio size={18} className="c2-radar-icon" />
           </div>
           <div className="c2-brand-titles">
             <div className="c2-sys-name">
-              EW-SMARTSCAN <span className="c2-badge-code">TAC-OPS 2.5</span>
+              <span className="c2-name-primary">EW-SMARTSCAN</span>
+              <span className="c2-badge-code">SIMULATION 2.5</span>
             </div>
-            <div className="c2-sys-sub">COGNITIVE SPECTRUM SURVEILLANCE &amp; ELECTRONIC WARFARE</div>
+            <div className="c2-sys-sub">INTELLIGENT RF SPECTRUM SURVEILLANCE</div>
+            <div className="c2-sys-tertiary">ELECTRONIC WARFARE SIMULATION</div>
           </div>
         </div>
 
         {/* Operational View Switcher */}
-        <div className="c2-mode-selector">
+        <nav className="c2-mode-selector" aria-label="Operational Mode Navigation">
           <button
             className={`c2-mode-btn ${activeMode === "landing" ? "active" : ""}`}
             onClick={() => setActiveMode("landing")}
+            title="Mission Overview (F0)"
           >
             <span className="c2-mode-key">F0</span>
-            <Compass size={13} /> MISSION OVERVIEW
+            <Compass size={13} className="nav-icon" />
+            <span className="nav-label">MISSION OVERVIEW</span>
           </button>
           <button
             className={`c2-mode-btn ${activeMode === "sim" ? "active" : ""}`}
             onClick={() => setActiveMode("sim")}
+            title="Combat Spectrum & ESM Radar (F1)"
           >
             <span className="c2-mode-key">F1</span>
-            <Crosshair size={13} /> COMBAT SPECTRUM &amp; ESM RADAR
+            <Crosshair size={13} className="nav-icon" />
+            <span className="nav-label">COMBAT SPECTRUM &amp; ESM RADAR</span>
           </button>
           <button
             className={`c2-mode-btn ${activeMode === "eob" ? "active" : ""}`}
             onClick={() => setActiveMode("eob")}
+            title="Electronic Order of Battle (F2)"
           >
             <span className="c2-mode-key">F2</span>
-            <Shield size={13} /> ELECTRONIC ORDER OF BATTLE (EOB)
+            <Shield size={13} className="nav-icon" />
+            <span className="nav-label">ELECTRONIC ORDER OF BATTLE (EOB)</span>
           </button>
           <button
             className={`c2-mode-btn ${activeMode === "ml" ? "active" : ""}`}
             onClick={() => setActiveMode("ml")}
+            title="Cognitive ML Telemetry (F3)"
           >
             <span className="c2-mode-key">F3</span>
-            <Brain size={13} /> COGNITIVE ML ENGINE TELEMETRY
+            <Brain size={13} className="nav-icon" />
+            <span className="nav-label">COGNITIVE ML TELEMETRY</span>
           </button>
-        </div>
+        </nav>
 
         {/* Tactical Header Controls */}
         <div className="c2-header-right">
-          <button
-            className={`tactical-toggle-btn ${audioEnabled ? "toggled-on" : ""}`}
-            onClick={() => setAudioEnabled(!audioEnabled)}
-            title="Toggle authentic tactical audio sweep & lock tones"
-          >
-            {audioEnabled ? <Volume2 size={13} /> : <VolumeX size={13} />}
-            <span>AUDIO BEACON: {audioEnabled ? "ENGAGED" : "MUTED"}</span>
-          </button>
+          {/* Secondary Controls: Audio Beacon & CRT Scanlines */}
+          <div className="c2-secondary-controls">
+            <button
+              className={`tactical-toggle-btn secondary-btn ${audioEnabled ? "toggled-on" : ""}`}
+              onClick={() => setAudioEnabled(!audioEnabled)}
+              title="Toggle tactical audio sweep & lock tones"
+            >
+              {audioEnabled ? <Volume2 size={12} /> : <VolumeX size={12} />}
+              <span className="ctrl-label">AUDIO BEACON</span>
+              <span className="ctrl-state">{audioEnabled ? "ON" : "OFF"}</span>
+            </button>
 
-          <button
-            className={`tactical-toggle-btn ${crtEnabled ? "toggled-warn" : ""}`}
-            onClick={() => setCrtEnabled(!crtEnabled)}
-            title="Toggle tactical CRT phosphor scanlines"
-          >
-            <Tv size={13} />
-            <span>CRT SCANLINES: {crtEnabled ? "ON" : "OFF"}</span>
-          </button>
+            <button
+              className={`tactical-toggle-btn secondary-btn ${crtEnabled ? "toggled-warn" : ""}`}
+              onClick={() => setCrtEnabled(!crtEnabled)}
+              title="Toggle tactical CRT phosphor scanlines"
+            >
+              <Tv size={12} />
+              <span className="ctrl-label">CRT SCANLINES</span>
+              <span className="ctrl-state">{crtEnabled ? "ON" : "OFF"}</span>
+            </button>
+          </div>
 
+          {/* Primary Highlighted System-Status Indicator: PRIORS */}
           <button
-            className={`tactical-toggle-btn ${warmStart ? "toggled-on" : ""}`}
+            className={`priors-status-btn ${warmStart ? "status-warm" : "status-cold"}`}
             onClick={() => setWarmStart(!warmStart)}
-            title="Knowledge Priors: Warm Start enables accumulated tactical experience"
+            title="Knowledge Priors: Click to toggle Warm Start / Cold Start"
           >
-            <Database size={13} />
-            <span>{warmStart ? "PRIORS: WARM" : "PRIORS: COLD"}</span>
+            <span className="priors-pulse-dot" />
+            <Database size={13} className="priors-icon" />
+            <div className="priors-text-wrap">
+              <span className="priors-label">PRIORS:</span>
+              <strong className="priors-val">{warmStart ? "WARM" : "COLD"}</strong>
+            </div>
           </button>
 
-          <div className="zulu-box">
-            <Clock size={13} />
-            <span>{zuluTime || "19:00:00 Z"}</span>
+          {/* Digital Zulu Clock */}
+          <div className="zulu-box" title="Tactical Zulu Time">
+            <Clock size={12} className="zulu-icon" />
+            <span className="zulu-time-text">{zuluTime || "19:00:00 Z"}</span>
           </div>
         </div>
       </header>
